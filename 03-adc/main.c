@@ -95,6 +95,12 @@ void get_temp_callback(){
     float temp_C = adc_get_temp();
     printf("%f\n", temp_C);
 }
+void tm_start_callback(){
+    adc_task_set_state(ADC_TASK_STATE_RUN);
+}
+void tm_stop_callback(){
+    adc_task_set_state(ADC_TASK_STATE_IDLE);
+}
 
 api_t device_api[] =
 {
@@ -108,6 +114,8 @@ api_t device_api[] =
     {"wmem", wmem_callback, "write memory at address (hex). Usage: wmem <address> <value>"},
     {"get_adc", get_adc_callback, "getting voltage from adc 26"},
     {"get_temp", get_temp_callback, "getting temperture from adc 4"},
+    {"tm_start", tm_start_callback, "start voltage and temperature measurement continuously"},
+    {"tm_stop", tm_stop_callback, "stop voltage and temperature measurement continuously"},
 	{NULL, NULL, NULL},
 };
 
@@ -137,6 +145,7 @@ int main(){
     {
         // Всегда обрабатываем состояние LED (для мигания)
         led_task_handle();
+        adc_task_handle();
         
         // Обрабатываем команды только когда они приходят
         char* command = stdio_task_handle();
