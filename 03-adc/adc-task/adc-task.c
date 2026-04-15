@@ -54,8 +54,8 @@ void adc_task_handle(){
         if (time_us_64() > adc_ts)
         {
             adc_ts = time_us_64() + ADC_TASK_MEAS_PERIOD_US;
-            float voltage_V = adc_get_temp();
-            float temp_C = adc_voltage();
+            float voltage_V = adc_voltage();
+            float temp_C = adc_get_temp();
             printf("%f %f\n", voltage_V, temp_C);
         }
         break;
